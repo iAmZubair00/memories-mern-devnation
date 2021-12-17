@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Card,
   CardActions,
@@ -13,10 +13,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import useStyles from "./styles";
-import { EditingContext } from "../../../App";
+import { useDispatch } from "react-redux";
+import { deletePost, toggleFormEdit } from "../../../actionCreators/post";
 const Post = ({ post }) => {
-  const { setEditInfo } = useContext(EditingContext);
+  //console.log(post);
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -61,12 +63,17 @@ const Post = ({ post }) => {
         <Button
           size="small"
           color="primary"
-          onClick={setEditInfo((prev) => ({ ...prev, isEditing: true }))}
+          //onClick={() => {setIsEditing(true);}}
+          onClick={() => dispatch(toggleFormEdit(post))}
         >
           <EditIcon fontSize="small" />
           Edit
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(deletePost(post._id))}
+        >
           <DeleteIcon fontSize="small" />
           Delete
         </Button>

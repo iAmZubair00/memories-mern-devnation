@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
 import MemoriesImage from "./assets/images/memories.png";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPosts } from "./actionCreators/post";
 import useStyles from "./styles";
 import EditForm from "./components/Form/EditForm";
 
-export const EditingContext = React.createContext();
-
 const App = () => {
-  const [editInfo, setEditInfo] = useState({ isEditing: false, postId: null });
+  const isEditing = useSelector((state) => state.formToggle.isEditing);
   const classes = useStyles();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAllPosts());
-  }, []);
+  }, [dispatch]);
   return (
     <Container maxWidth="lg">
       <AppBar position="static" className={classes.appBar} color="inherit">
@@ -38,14 +37,12 @@ const App = () => {
             alignItems="stretch"
             spacing={3}
           >
-            <EditingContext.Provider value={{ editInfo, setEditInfo }}>
-              <Grid item xs={12} sm={7}>
-                <Posts />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                {editInfo.isEditing ? <EditForm /> : <Form />}
-              </Grid>
-            </EditingContext.Provider>
+            <Grid item xs={12} sm={7}>
+              <Posts />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              {isEditing ? <EditForm /> : <Form />}
+            </Grid>
           </Grid>
         </Container>
       </Grow>

@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actionCreators/post";
+import { useDispatch, useSelector } from "react-redux";
+import { editPost, toggleFormCreate } from "../../actionCreators/post";
 import useStyles from "./styles";
 
 const EditForm = () => {
-  const [postData, setPostData] = useState({
-    creator: "",
-    title: "",
-    message: "",
-    tags: "",
-    selectedFile: "",
-  });
+  const postToEdit = useSelector((state) => state.formToggle.postToEdit);
+  const [postData, setPostData] = useState(postToEdit);
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    dispatch(editPost(postData));
+    dispatch(toggleFormCreate);
     clear();
   };
   const clear = () => {
