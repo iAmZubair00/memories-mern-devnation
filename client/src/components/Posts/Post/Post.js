@@ -14,11 +14,20 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import { deletePost, toggleFormEdit } from "../../../actionCreators/post";
+import {
+  deletePost,
+  editPost,
+  toggleFormEdit,
+} from "../../../actionCreators/post";
 const Post = ({ post }) => {
   //console.log(post);
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const getUpdatedPost = () => {
+    return { ...post, likeCount: post.likeCount + 1 };
+  };
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -56,7 +65,11 @@ const Post = ({ post }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(editPost(getUpdatedPost()))}
+        >
           <ThumbUpAltIcon fontSize="small" />
           Like {post.likeCount}
         </Button>

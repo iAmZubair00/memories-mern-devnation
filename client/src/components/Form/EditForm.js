@@ -11,7 +11,7 @@ const EditForm = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleSubmit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
     dispatch(editPost(postData));
     dispatch(toggleFormCreate);
@@ -32,7 +32,7 @@ const EditForm = () => {
         autoComplete="off"
         noValidate
         className={`${classes.root} ${classes.form}`}
-        onSubmit={handleSubmit}
+        onSubmit={handleSave}
       >
         <Typography variant="h6">Edit this Memory</Typography>
         <TextField
