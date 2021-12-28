@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "https://memories-mern-devnation.herokuapp.com/";
 
 export const fetchPosts = async () => {
   const data = await axios.get(`${baseURL}/posts`);
