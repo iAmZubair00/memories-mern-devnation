@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://memories-mern-devnation.herokuapp.com";
+const baseURL = process.env.REACT_APP_API_URL;
 
 export const fetchPosts = async () => {
   const data = await axios.get(`${baseURL}/posts`);
