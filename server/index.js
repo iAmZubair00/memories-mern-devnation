@@ -12,8 +12,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRoutes);
 
-const CONNECTION_URL =
-  "mongodb://user1:dJYqHB0CAbXStVTd@codecamp-mongo-course-shard-00-00.spl74.mongodb.net:27017,codecamp-mongo-course-shard-00-01.spl74.mongodb.net:27017,codecamp-mongo-course-shard-00-02.spl74.mongodb.net:27017/db1?ssl=true&replicaSet=atlas-480jj6-shard-0&authSource=admin&retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.MONGO_URI
 const PORT = process.env.PORT || 5000;
 
 mongoose
