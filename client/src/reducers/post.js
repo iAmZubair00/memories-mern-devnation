@@ -1,28 +1,25 @@
 // initial state for postReducer
 const initialState = {
   posts: [],
+  loading: false
 };
 
 // reducer for managing posts CRUD
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "FETCH_ALL_POSTS":
-      //console.log({ posts: action.payload });
-      return { posts: action.payload };
+    case "FETCH_POSTS_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_POSTS_SUCCESS": // success
+      return { posts: action.payload, loading: false };
+    case "FETCH_POSTS_FAILURE":
+      return { ...state, loading: false };
     case "CREATE_POST":
-      //console.log(state);
-      //console.log({ ...state.posts, posts: action.payload });
-      //console.log({ posts: [...state.posts, action.payload] });
       return { posts: [...state.posts, action.payload] };
-    //return { ...state.posts, action.payload };
     case "DELETE_POST":
-      //console.log(...state.posts);
-      //console.log(state);
       return {
         posts: state.posts.filter((post) => post._id !== action.payload._id),
       };
     case "EDIT_POST":
-      //console.log({ posts: action.payload });
       return {
         posts: state.posts.map((post) =>
           post._id === action.payload._id ? action.payload : post

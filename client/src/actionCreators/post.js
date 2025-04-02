@@ -3,10 +3,12 @@ import * as api from "../api/index";
 // creators for managing posts CRUD
 export const fetchAllPosts = () => async (dispatch) => {
   try {
+    dispatch({ type: "FETCH_POSTS_REQUEST" });
     const { data } = await api.fetchPosts();
-    dispatch({ type: "FETCH_ALL_POSTS", payload: data });
+    dispatch({ type: "FETCH_POSTS_SUCCESS", payload: data });
   } catch (err) {
     console.log(err.message);
+    dispatch({ type: "FETCH_POSTS_FAILURE" });
   }
 };
 

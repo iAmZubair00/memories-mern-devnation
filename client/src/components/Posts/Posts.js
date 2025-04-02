@@ -1,16 +1,16 @@
 import React from "react";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress, Box } from "@material-ui/core";
 import Post from "./Post/Post";
 import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const Posts = () => {
-  const data = useSelector((store) => store.posts.posts);
-  //console.log("Posts -> data", data);
+  const { posts, loading } = useSelector((store) => store.posts);
   const classes = useStyles();
 
-  return !data.length ? (
-    <CircularProgress />
+  if(loading) return <CircularProgress />;
+  return !posts.length ? (
+    <Box display='flex' justifyContent='center' alignItems='center'>No Memories Found</Box>
   ) : (
     <Grid
       className={classes.mainContainer}
@@ -18,7 +18,7 @@ const Posts = () => {
       alignItems="stretch"
       spacing={3}
     >
-      {data.map((post) => (
+      {posts.map((post) => (
         <Grid key={post._id} item xs={12} sm={6}>
           <Post post={post} />
         </Grid>
