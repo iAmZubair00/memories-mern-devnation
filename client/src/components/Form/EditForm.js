@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
-import { editPost, toggleFormCreate } from "../../actionCreators/post";
 import useStyles from "./styles";
+import { editPost } from "../../store/actionCreators";
+import { toggleFormCreate } from "../../store/actionCreators";
 
 const EditForm = () => {
   const postToEdit = useSelector((state) => state.formToggle.postToEdit);

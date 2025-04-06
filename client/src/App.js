@@ -4,9 +4,9 @@ import MemoriesImage from "./assets/images/memories.png";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllPosts } from "./actionCreators/post";
 import useStyles from "./styles";
 import EditForm from "./components/Form/EditForm";
+import { fetchAllPosts } from "./store/actionCreators";
 
 const App = () => {
   const isEditing = useSelector((state) => state.formToggle.isEditing);

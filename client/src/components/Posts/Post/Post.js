@@ -14,11 +14,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import {
-  deletePost,
-  editPost,
-  toggleFormEdit,
-} from "../../../actionCreators/post";
+import { deletePost, editPost, toggleFormEdit } from "../../../store/actionCreators";
+
 const Post = ({ post }) => {
   //console.log(post);
   const classes = useStyles();
