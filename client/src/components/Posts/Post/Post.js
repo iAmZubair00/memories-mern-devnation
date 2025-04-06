@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import { deletePost, editPost, toggleFormEdit } from "../../../store/actionCreators";
 
 const Post = ({ post }) => {
-  //console.log(post);
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -73,7 +72,6 @@ const Post = ({ post }) => {
         <Button
           size="small"
           color="primary"
-          //onClick={() => {setIsEditing(true);}}
           onClick={() => dispatch(toggleFormEdit(post))}
         >
           <EditIcon fontSize="small" />

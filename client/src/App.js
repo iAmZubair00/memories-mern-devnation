@@ -2,14 +2,12 @@ import React, { useEffect } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
 import MemoriesImage from "./assets/images/memories.png";
 import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useStyles from "./styles";
-import EditForm from "./components/Form/EditForm";
 import { fetchAllPosts } from "./store/actionCreators";
+import AddEditForm from "./components/Form/AddEditForm";
 
 const App = () => {
-  const isEditing = useSelector((state) => state.formToggle.isEditing);
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -41,7 +39,7 @@ const App = () => {
               <Posts />
             </Grid>
             <Grid item xs={12} sm={4}>
-              {isEditing ? <EditForm /> : <Form />}
+              <AddEditForm />
             </Grid>
           </Grid>
         </Container>
