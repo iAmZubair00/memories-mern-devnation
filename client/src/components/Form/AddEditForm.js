@@ -15,10 +15,12 @@ const defaultPostData = {
 }
 
 const AddEditForm = () => {
+
   const { postToEdit, isEditing } = useSelector((state) => state.formToggle);
-  const [postData, setPostData] = useState(defaultPostData);
   const dispatch = useDispatch();
   const classes = useStyles();
+  
+  const [postData, setPostData] = useState(defaultPostData);
 
   const handleSave = (e) => {
     e.preventDefault();
