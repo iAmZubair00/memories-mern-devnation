@@ -5,13 +5,15 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const Posts = () => {
+
   const { posts, loading } = useSelector((store) => store.posts);
   const classes = useStyles();
 
-  if(loading) return <CircularProgress />;
-  return !posts.length ? (
-    <Box display='flex' justifyContent='center' alignItems='center'>No Memories Found</Box>
-  ) : (
+  if(loading) return <Box display='flex' justifyContent='center' alignItems='center'><CircularProgress justifyContent='center' /></Box>;
+
+  if(!posts.length) return <Box display='flex' justifyContent='center' alignItems='center'>No Memories Found</Box>;
+
+  return (
     <Grid
       className={classes.mainContainer}
       container

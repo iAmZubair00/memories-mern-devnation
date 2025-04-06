@@ -1,21 +1,22 @@
-import * as api from "../api/index";
+import * as api from "../../api/index.js";
+import { POST_ACTION_TYPES } from "../actionTypes";
 
 // creators for managing posts CRUD
 export const fetchAllPosts = () => async (dispatch) => {
   try {
-    dispatch({ type: "FETCH_POSTS_REQUEST" });
+    dispatch({ type: POST_ACTION_TYPES.FETCH_REQUEST });
     const { data } = await api.fetchPosts();
-    dispatch({ type: "FETCH_POSTS_SUCCESS", payload: data });
+    dispatch({ type: POST_ACTION_TYPES.FETCH_SUCCESS, payload: data });
   } catch (err) {
     console.log(err.message);
-    dispatch({ type: "FETCH_POSTS_FAILURE" });
+    dispatch({ type: POST_ACTION_TYPES.FETCH_FAILURE });
   }
 };
 
 export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
-    dispatch({ type: "CREATE_POST", payload: data });
+    dispatch({ type: POST_ACTION_TYPES.CREATE, payload: data });
   } catch (err) {
     console.log(err.message);
   }
@@ -24,7 +25,7 @@ export const createPost = (post) => async (dispatch) => {
 export const editPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.editPost(post);
-    dispatch({ type: "EDIT_POST", payload: data });
+    dispatch({ type: POST_ACTION_TYPES.EDIT, payload: data });
   } catch (err) {
     console.log(err.message);
   }
@@ -33,16 +34,8 @@ export const editPost = (post) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.deletePost(id);
-    dispatch({ type: "DELETE_POST", payload: data });
+    dispatch({ type: POST_ACTION_TYPES.DELETE, payload: data });
   } catch (err) {
     console.log(err.message);
   }
-};
-
-// creators for toggling between "create" and "edit" Forms
-export const toggleFormEdit = (data) => (dispatch) => {
-  dispatch({ type: "toggleForm/edit", payload: data });
-};
-export const toggleFormCreate = (dispatch) => {
-  dispatch({ type: "toggleForm/create" });
 };

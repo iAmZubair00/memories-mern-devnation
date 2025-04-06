@@ -1,41 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
-import { editPost, toggleFormCreate } from "../../actionCreators/post";
 import useStyles from "./styles";
+import { createPost, editPost } from "../../store/actionCreators";
+import { toggleFormCreate } from "../../store/actionCreators";
 
-const EditForm = () => {
-  const postToEdit = useSelector((state) => state.formToggle.postToEdit);
-  const [postData, setPostData] = useState(postToEdit);
+const defaultPostData = {
+  creator: null,
+  title: null,
+  message: null,
+  tags: [],
+  selectedFile: null,
+}
+
+const AddEditForm = () => {
+
+  const { postToEdit, isEditing } = useSelector((state) => state.formToggle);
   const dispatch = useDispatch();
   const classes = useStyles();
+  
+  const [postData, setPostData] = useState(defaultPostData);
 
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(editPost(postData));
-    dispatch(toggleFormCreate);
+    if(isEditing) {
+      dispatch(editPost(postData));
+      dispatch(toggleFormCreate);
+    } else{
+      dispatch(createPost(postData));
+    }
     clear();
   };
   const clear = () => {
-    setPostData({
-      creator: "",
-      title: "",
-      message: "",
-      tags: "",
-      selectedFile: "",
-    });
+    setPostData(defaultPostData);
   };
+
+  useEffect(() => {
+    if (isEditing) {
+      setPostData(postToEdit);
+    }
+  }, [isEditing, postToEdit]);
+
   return (
     <Paper className={classes.paper}>
       <form
         autoComplete="off"
-        noValidate
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSave}
       >
-        <Typography variant="h6">Edit this Memory</Typography>
+        <Typography variant="h6">{`${isEditing ? 'Edit this Memory': 'Create a Memory'}`}</Typography>
         <TextField
+          required
           name="creator"
           variant="outlined"
           label="Creator"
@@ -46,6 +62,7 @@ const EditForm = () => {
           }
         />
         <TextField
+          required
           name="title"
           variant="outlined"
           label="Title"
@@ -54,6 +71,7 @@ const EditForm = () => {
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
+          required
           name="message"
           variant="outlined"
           label="Message"
@@ -73,6 +91,7 @@ const EditForm = () => {
         />
         <div className={classes.fileInput}>
           <FileBase
+            required
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
@@ -88,7 +107,7 @@ const EditForm = () => {
           type="submit"
           fullWidth
         >
-          Save
+          {`${isEditing ? 'Save': 'Submit'}`}
         </Button>
         <Button
           variant="contained"
@@ -104,4 +123,4 @@ const EditForm = () => {
   );
 };
 
-export default EditForm;
+export default AddEditForm;
