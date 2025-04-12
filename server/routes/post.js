@@ -8,7 +8,9 @@ import {
   deletePost,
 } from "../controllers/post.js";
 
-router.get("/", getPosts);
+import auth from "../middlewares/auth.js";
+
+router.get("/", auth, getPosts);
 router.put("/", editPost);
 router.post("/", createPost);
 router.delete("/:id", deletePost);
