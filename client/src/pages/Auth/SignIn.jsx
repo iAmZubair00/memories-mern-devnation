@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@mui/icons-material';
 import { makeStyles } from '@material-ui/core/styles';
+import { useNavigate } from 'react-router-dom';
+import { RouteConstants } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-
+  const navigate = useNavigate()
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -90,7 +93,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link variant="body2" onClick={() => navigate(RouteConstants.SIGN_UP)}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
