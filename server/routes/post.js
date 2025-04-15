@@ -11,8 +11,8 @@ import {
 import auth from "../middlewares/auth.js";
 
 router.get("/", auth, getPosts);
-router.put("/", editPost);
-router.post("/", createPost);
-router.delete("/:id", deletePost);
+router.put("/", auth, editPost);
+router.post("/", auth, createPost);
+router.delete("/:id", auth, deletePost);
 
 export default router;
