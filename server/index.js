@@ -2,9 +2,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import postRoutes from "./routes/post.js";
+import postRouter from "./routes/post.route.js";
 import authRouter from "./routes/auth.route.js";
-import dotenv from "dotenv/config";
 import passport from "passport";
 import { jwtStrategy } from "./config/passport.js";
 
@@ -18,8 +17,8 @@ app.use(cors());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
-app.use("/posts", postRoutes);
-app.use(authRouter)
+app.use("/post", postRouter);
+app.use("/auth", authRouter)
 
 const CONNECTION_URL = process.env.DB_CONNECTION
 const PORT = process.env.PORT || 5000;

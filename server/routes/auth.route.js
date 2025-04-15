@@ -6,19 +6,19 @@ import authController from '../controllers/auth.controller.js';
 const router = express.Router();
 
 router.post(
-  '/auth/register',
+  '/register',
   validate(userValidation.createUserSchema),
   authController.register
 );
 
 router.post(
-  '/auth/login',
+  '/login',
   validate(authValidation.loginSchema),
   authController.login
 );
 
 router.post(
-  '/auth/refresh-token',
+  '/refresh-token',
   validate(authValidation.refreshTokenSchema),
   authController.refreshToken
 );
