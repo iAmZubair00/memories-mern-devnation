@@ -6,6 +6,7 @@ import postRouter from "./routes/post.route.js";
 import authRouter from "./routes/auth.route.js";
 import passport from "passport";
 import { jwtStrategy } from "./config/passport.js";
+import { errorHandler } from "./middlewares/error.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ passport.use('jwt', jwtStrategy);
 
 app.use("/post", postRouter);
 app.use("/auth", authRouter)
+
+app.use(errorHandler);
 
 const CONNECTION_URL = process.env.DB_CONNECTION
 const PORT = process.env.PORT || 5000;

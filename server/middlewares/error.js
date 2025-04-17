@@ -41,7 +41,4 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).send(response);
 };
 
-export default {
-  errorHandler,
-  errorConverter,
-};
+export { errorHandler, errorConverter };
