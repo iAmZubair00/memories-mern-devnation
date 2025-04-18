@@ -1,34 +1,10 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import postRouter from "./routes/post.route.js";
-import authRouter from "./routes/auth.route.js";
-import passport from "passport";
-import { jwtStrategy } from "./config/passport.js";
-import { errorHandler } from "./middlewares/error.js";
-
-const app = express();
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
-
-// jwt authentication
-app.use(passport.initialize());
-passport.use('jwt', jwtStrategy);
-
-app.use("/post", postRouter);
-app.use("/auth", authRouter)
-
-app.use(errorHandler);
-
-const CONNECTION_URL = process.env.DB_CONNECTION
-const PORT = process.env.PORT || 5000;
+import app from "./server.js";
+import config from "./config/config.js";
 
 mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(config.dbConnection, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>
-    app.listen(PORT, () => console.log(`server running at PORT ${PORT}`))
+    app.listen(config.port, () => console.log(`server running at PORT ${config.port}`))
   )
   .catch((err) => console.log(`${err} server did not connect`));
