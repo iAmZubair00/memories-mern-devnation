@@ -1,8 +1,8 @@
-import { Post } from "../models/index.js";
+import { postService } from './../services/index.js';
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await postService.getPosts();
     res.status(200).json(posts);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -10,26 +10,17 @@ const getPosts = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const postBody = req.body;
-  //console.log(postBody);
-  const newPostImage = new Post(postBody);
-
   try {
-    await newPostImage.save();
-    res.status(200).json(newPostImage);
+    const newPost = await postService.createPost(req.body);
+    res.status(200).json(newPost);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
 const editPost = async (req, res) => {
-  const reqBody = req.body;
   try {
-    const post = await Post.findOneAndUpdate(
-      { _id: reqBody._id },
-      reqBody,
-      { new: true }
-    );
+    const post = await postService.editPost(req.body);
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -39,7 +30,7 @@ const editPost = async (req, res) => {
 const deletePost = async (req, res) => {
   let id = req.params.id;
   try {
-    const data = await Post.findByIdAndRemove(id);
+    const data = postService.deletePost(id);
     res.status(200).json(data);
   } catch (err) {
     res.status(404).json({ message: err.message });
