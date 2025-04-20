@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
+import { Container, Grow, Grid } from "@mui/material";
 import MemoriesImage from "./assets/images/memories.png";
 import Posts from "./components/Posts/Posts";
 import { useDispatch } from "react-redux";
-import useStyles from "./styles";
+import { AppBarWrapper, Heading, Image } from "./styles";
 import { fetchAllPosts } from "./store/actionCreators";
 import AddEditForm from "./components/Form/AddEditForm";
 
 const App = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,17 +15,16 @@ const App = () => {
   }, [dispatch]);
   return (
     <Container maxWidth="lg">
-      <AppBar position="static" className={classes.appBar} color="inherit">
-        <Typography variant="h2" className={classes.heading} align="center">
+      <AppBarWrapper position="static" color="inherit">
+        <Heading variant="h2" align="center">
           Memories
-        </Typography>
-        <img
+        </Heading>
+        <Image
           src={MemoriesImage}
-          className={classes.image}
           alt="memoriesImage"
           height="60"
         />
-      </AppBar>
+      </AppBarWrapper>
       <Grow in>
         <Container>
           <Grid
