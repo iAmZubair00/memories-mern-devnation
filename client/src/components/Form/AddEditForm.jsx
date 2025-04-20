@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import { TextField, Button, Typography, Paper, styled } from "@mui/material";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
-import useStyles from "./styles";
 import { createPost, editPost } from "../../store/actionCreators";
 import { toggleFormCreate } from "../../store/actionCreators";
 
@@ -14,11 +13,14 @@ const defaultPostData = {
   selectedFile: null,
 }
 
+export const TextFieldStyled = styled(TextField)(({ theme }) => ({
+    margin: theme.spacing(1),
+}));
+
 const AddEditForm = () => {
 
   const { postToEdit, isEditing } = useSelector((state) => state.formToggle);
   const dispatch = useDispatch();
-  const classes = useStyles();
   
   const [postData, setPostData] = useState(defaultPostData);
 
@@ -43,14 +45,18 @@ const AddEditForm = () => {
   }, [isEditing, postToEdit]);
 
   return (
-    <Paper className={classes.paper}>
+    <Paper sx={{ padding: 2 }}>
       <form
         autoComplete="off"
-        className={`${classes.root} ${classes.form}`}
         onSubmit={handleSave}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
       >
         <Typography variant="h6">{`${isEditing ? 'Edit this Memory': 'Create a Memory'}`}</Typography>
-        <TextField
+        <TextFieldStyled
           required
           name="creator"
           variant="outlined"
@@ -61,7 +67,7 @@ const AddEditForm = () => {
             setPostData({ ...postData, creator: e.target.value })
           }
         />
-        <TextField
+        <TextFieldStyled
           required
           name="title"
           variant="outlined"
@@ -70,7 +76,7 @@ const AddEditForm = () => {
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
-        <TextField
+        <TextFieldStyled
           required
           name="message"
           variant="outlined"
@@ -81,7 +87,7 @@ const AddEditForm = () => {
             setPostData({ ...postData, message: e.target.value })
           }
         />
-        <TextField
+        <TextFieldStyled
           name="tags"
           variant="outlined"
           label="Tags"
@@ -89,7 +95,7 @@ const AddEditForm = () => {
           value={postData.tags}
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
-        <div className={classes.fileInput}>
+        <div style={{ width: "97%", margin: "10px 0" }}>
           <FileBase
             required
             type="file"
@@ -100,18 +106,18 @@ const AddEditForm = () => {
           />
         </div>
         <Button
-          className={classes.buttonSubmit}
           variant="contained"
-          color="primary"
+          color="info"
           size="large"
           type="submit"
           fullWidth
+          sx={{ marginBottom: 2 }}
         >
           {`${isEditing ? 'Save': 'Submit'}`}
         </Button>
         <Button
           variant="contained"
-          color="secondary"
+          color="error"
           size="small"
           onClick={clear}
           fullWidth

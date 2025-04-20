@@ -6,49 +6,79 @@ import {
   CardMedia,
   Button,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
-import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { deletePost, editPost, toggleFormEdit } from "../../../store/actionCreators";
 
 const Post = ({ post }) => {
 
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   return (
-    <Card className={classes.card}>
+    <Card sx={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      borderRadius: "15px",
+      height: "100%",
+      position: "relative",
+    }}>
       <CardMedia
-        className={classes.media}
         image={post.selectedFile}
         title={post.title}
+        sx={{
+          height: 0,
+          paddingTop: "56.25%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          backgroundBlendMode: "darken",
+        }}
       />
-      <div className={classes.overlay}>
+      <div 
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          color: "white",
+        }}
+      >
         <Typography variant="h6">{post.creator}</Typography>
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          color: "white",
+        }}
+      >
         <Button style={{ color: "white" }} size="small" onClick={() => {}}>
           <MoreHorizIcon fontSize="default" />
         </Button>
       </div>
-      <div className={classes.details}>
+      <div 
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "20px",
+        }}
+      >
         <Typography variant="body2" color="textSecondary" component="h2">
           {post.tags[0]}
         </Typography>
       </div>
       <Typography
-        className={classes.title}
         gutterBottom
         variant="h5"
         component="h2"
+        sx={{ padding: "0 16px" }}
       >
         {post.title}
       </Typography>
@@ -57,7 +87,13 @@ const Post = ({ post }) => {
           {post.message}
         </Typography>
       </CardContent>
-      <CardActions className={classes.cardActions}>
+      <CardActions
+        sx={{
+          padding: "0 16px 8px 16px",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Button
           size="small"
           color="primary"

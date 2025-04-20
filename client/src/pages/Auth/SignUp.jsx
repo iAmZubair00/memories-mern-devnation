@@ -10,47 +10,47 @@ import {
     Grid,
     Typography, 
     Container 
-} from '@material-ui/core';
+} from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import { RouteConstants } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+const AvatarStyled = styled(Avatar)(({ theme }) => ({
+  margin: theme.spacing(1),
+  backgroundColor: theme.palette.secondary.main,
+}));
+const ButtonStyled = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(3, 0, 2),
 }));
 
 export default function SignUp() {
-  const classes = useStyles();
   const navigate = useNavigate()
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div 
+        style={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <AvatarStyled>
           <LockOutlined />
-        </Avatar>
+        </AvatarStyled>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form 
+          noValidate
+          style={{
+            width: '100%', // Fix IE 11 issue.
+            marginTop: 12,
+          }}  
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -105,15 +105,14 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <Button
+          <ButtonStyled
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
           >
             Sign Up
-          </Button>
+          </ButtonStyled>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link variant="body2" onClick={() => navigate(RouteConstants.SIGN_IN)}>
