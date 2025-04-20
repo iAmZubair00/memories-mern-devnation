@@ -1,13 +1,11 @@
 import React from "react";
-import { Grid, CircularProgress, Box } from "@material-ui/core";
+import { Grid, CircularProgress, Box } from "@mui/material";
 import Post from "./Post/Post";
 import { useSelector } from "react-redux";
-import useStyles from "./styles";
 
 const Posts = () => {
 
   const { posts, loading } = useSelector((store) => store.posts);
-  const classes = useStyles();
 
   if(loading) return <Box display='flex' justifyContent='center' alignItems='center'><CircularProgress justifyContent='center' /></Box>;
 
@@ -15,10 +13,10 @@ const Posts = () => {
 
   return (
     <Grid
-      className={classes.mainContainer}
       container
       alignItems="stretch"
       spacing={3}
+      sx={{ display: "flex", alignItems: "center" }}
     >
       {posts.map((post) => (
         <Grid key={post._id} item xs={12} sm={6}>
