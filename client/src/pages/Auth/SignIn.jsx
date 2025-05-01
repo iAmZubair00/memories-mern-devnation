@@ -15,6 +15,9 @@ import { LockOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { RouteConstants } from '../../constants';
+import { useMutation } from '@tanstack/react-query';
+import { login } from '../../api';
+import { useAuthContext } from '../../context/AuthContext';
 
 const AvatarStyled = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
@@ -26,6 +29,22 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
 
 export default function SignIn() {
   const navigate = useNavigate()
+  const { login: saveAuthInfo } = useAuthContext()
+
+  const { mutate: submitRequest } = useMutation({
+    mutationFn: (req) => login(req),
+    onSuccess: (res) => {
+      saveAuthInfo(res.data.tokens.access.token, res.data.tokens.access.expires)
+      navigate(RouteConstants.POSTS)
+    },
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target)
+    const inputDetails = Object.fromEntries(formData.entries());
+    submitRequest(inputDetails)
+  }
   
   return (
     <Container component="main" maxWidth="xs">
@@ -49,7 +68,8 @@ export default function SignIn() {
           style={{
             width: '100%', // Fix IE 11 issue.
             marginTop: 12,
-          }}  
+          }}
+          onSubmit={handleSubmit}  
         >          
           <TextField
             variant="outlined"

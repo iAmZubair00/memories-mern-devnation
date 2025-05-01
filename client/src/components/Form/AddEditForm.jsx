@@ -6,11 +6,11 @@ import { createPost, editPost } from "../../store/actionCreators";
 import { toggleFormCreate } from "../../store/actionCreators";
 
 const defaultPostData = {
-  creator: null,
-  title: null,
-  message: null,
+  creator: '',
+  title: '',
+  message: '',
   tags: [],
-  selectedFile: null,
+  selectedFile: '',
 }
 
 export const TextFieldStyled = styled(TextField)(({ theme }) => ({

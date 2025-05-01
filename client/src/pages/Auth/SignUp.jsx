@@ -3,9 +3,7 @@ import {
     Button,
     Avatar, 
     TextField, 
-    CssBaseline, 
-    FormControlLabel, 
-    Checkbox, 
+    CssBaseline,
     Link, 
     Grid,
     Typography, 
@@ -13,8 +11,11 @@ import {
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { useMutation } from '@tanstack/react-query'
 import { RouteConstants } from '../../constants';
 import { useNavigate } from 'react-router-dom';
+import { signUp } from '../../api';
+import { useAuthContext } from '../../context/AuthContext';
 
 const AvatarStyled = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
@@ -26,6 +27,22 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
 
 export default function SignUp() {
   const navigate = useNavigate()
+  const { login } = useAuthContext()
+
+  const { mutate: submitRequest } = useMutation({
+    mutationFn: (req) => signUp(req),
+    onSuccess: (res) => {
+      login(res.data.tokens.access.token, res.data.tokens.access.expires)
+      navigate(RouteConstants.POSTS)
+    },
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target)
+    const inputDetails = Object.fromEntries(formData.entries());
+    submitRequest(inputDetails)
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -50,29 +67,18 @@ export default function SignUp() {
             width: '100%', // Fix IE 11 issue.
             marginTop: 12,
           }}  
+          onSubmit={handleSubmit}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                name="name"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="name"
+                label="Name"
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
               />
             </Grid>
             <Grid item xs={12}>
@@ -96,12 +102,6 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid>
           </Grid>
