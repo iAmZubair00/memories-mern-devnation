@@ -1,48 +1,23 @@
-import React, { useEffect } from "react";
-import { Container, Grow, Grid } from "@mui/material";
-import MemoriesImage from "./assets/images/memories.png";
-import Posts from "./components/Posts/Posts";
-import { useDispatch } from "react-redux";
-import { AppBarWrapper, Heading, Image } from "./styles";
-import { fetchAllPosts } from "./store/actionCreators";
-import AddEditForm from "./components/Form/AddEditForm";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Routes from "./routes/Routes";
+import { AuthContextProvider } from "./context/AuthContext";
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllPosts());
-  }, [dispatch]);
   return (
-    <Container maxWidth="lg">
-      <AppBarWrapper position="static" color="inherit">
-        <Heading variant="h2" align="center">
-          Memories
-        </Heading>
-        <Image
-          src={MemoriesImage}
-          alt="memoriesImage"
-          height="60"
-        />
-      </AppBarWrapper>
-      <Grow in>
-        <Container>
-          <Grid
-            container
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={3}
-          >
-            <Grid item xs={12} sm={7}>
-              <Posts />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <AddEditForm />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-    </Container>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <Routes />
+      </AuthContextProvider>
+    </QueryClientProvider>
   );
 };
 

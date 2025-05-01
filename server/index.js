@@ -1,23 +1,11 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import postRoutes from "./routes/post.js";
-import dotenv from "dotenv/config";
-
-const app = express();
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
-app.use("/posts", postRoutes);
-
-const CONNECTION_URL = process.env.MONGO_URI
-const PORT = process.env.PORT || 5000;
+import app from "./server.js";
+import config from "./config/config.js";
+import logger from "./config/logger.js";
 
 mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(config.dbConnection, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>
-    app.listen(PORT, () => console.log(`server running at PORT ${PORT}`))
+    app.listen(config.port, () => logger.info(`server running at PORT ${config.port}`))
   )
-  .catch((err) => console.log(`${err} server did not connect`));
+  .catch((err) => logger.error(`${err} server did not connect`));
